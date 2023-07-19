@@ -1,0 +1,213 @@
+//N meetings in one room
+
+class Solution 
+{
+    //Function to find the maximum number of meetings that can
+    //be performed in a meeting room.
+    public static int maxMeetings(int start[], int end[], int n)
+    {
+        // add your code here
+        int meetings[][] = new int[start.length][3];
+        for(int i=0;i<start.length;i++){
+            meetings[i][0]=i;
+            meetings[i][1]=start[i];
+            meetings[i][2]=end[i];
+        }
+         Arrays.sort(meetings, Comparator.comparingDouble(o->o[2]));
+        int maxMeet=1;
+        int lastIdxEnd=meetings[0][2];
+        for(int i=0;i<end.length;i++){
+            if(meetings[i][1]>lastIdxEnd){
+                maxMeet++;
+                lastIdxEnd=meetings[i][2];
+            }
+        }
+        return maxMeet;
+    }
+}
+
+
+//Minimum number of platforms required for a…
+
+class Solution
+{
+    //Function to find the minimum number of platforms required at the
+    //railway station such that no train waits.
+    static int findPlatform(int arr[], int dep[], int n)
+    {
+        // add your code here
+        Arrays.sort(arr);
+        Arrays.sort(dep);
+         int platform_need=1;
+            int max_platform=1;
+            int i=1;
+            int j=0;
+               
+               while(i<n && j<n){
+                   if(arr[i]<=dep[j]){
+                       platform_need++;
+                       i++;
+                   }
+                   else if(arr[i]>dep[j]){
+                       platform_need--;
+                       j++;
+                   }
+                     {
+                       max_platform=platform_need;
+                   }
+               }
+               return max_platform;        
+    }
+}
+
+
+//Job sequencing Problem
+
+class Solution
+{
+    //Function to find the maximum profit and the number of jobs done.
+    int[] JobScheduling(Job arr[], int n)
+    {
+
+// Sorting Based on Profit 
+
+        Arrays.sort(arr,(a,b)->(b.profit-a.profit));
+        int maxi=0;
+
+//Find Maximum deadline
+        for(int i=0;i<n;i++){
+            maxi=Math.max(arr[i].deadline,maxi);
+        }
+
+// Use Data Structure to Store the job ids on the basic of free slots available in decreasing order Profit use rightmost slot to get maximum profit
+          int[] res=new int[maxi+1];
+        int countJob=0;
+        int jobProfit=0;
+        Arrays.fill(res,-1);
+        for(int i=0;i<n;i++){
+            for(int j=arr[i].deadline;j>0;j--){
+
+//Free Slot found
+                if(res[j]==-1){
+                    res[j]=arr[i].id;
+
+// Increment Number of Jobs
+                    countJob++;
+
+// Add to the profit
+                    jobProfit+=arr[i].profit;
+                    break;
+                }
+            }
+        }
+        int [] ans=new int[2];
+        ans[0]=countJob;
+        ans[1]=jobProfit;
+        return ans;
+    }
+}
+
+
+
+
+//Fractional Knapsack Problem
+
+class Solution
+{
+    double fractionalKnapsack(int W, Item arr[], int n) 
+    {
+        double [][]ratio=new double[n][2];
+        for(int i=0;i<n;i++){ 
+            ratio[i][0]=(double)i;
+            ratio[i][1]=(arr[i].value)/(double)(arr[i].weight);
+        }
+        Arrays.sort(ratio, Comparator.comparingDouble(o -> o[1]));
+        double max_value = 0;
+        for(int i=ratio.length-1; i>=0; i--){
+            int idx = (int)ratio[i][0];
+            if(W>=arr[idx].weight){
+                max_value+=arr[idx].value;
+                W-=arr[idx].weight;
+            }
+            else{
+                max_value+=ratio[i][1]*W;
+                W=0;
+                break;
+            }
+        }
+        return max_value;
+    }
+}
+
+
+
+//Greedy algorithm to find minimum number of…
+
+import java.io.*;
+public class coin
+{
+    // m is size of coins array (number of different coins)
+    static int minCoins(int coins[], int m, int V)
+    {
+       // base case
+       if (V == 0) return 0;
+      
+       // Initialize result
+       int res = Integer.MAX_VALUE;
+      
+       // Try every coin that has smaller value than V
+       for (int i=0; i<m; i++)
+       {
+         if (coins[i] <= V)
+         {
+             int sub_res = minCoins(coins, m, V-coins[i]);
+      
+             // Check for INT_MAX to avoid overflow and see if
+             // result can minimized
+             if (sub_res != Integer.MAX_VALUE && sub_res + 1 < res)
+                res = sub_res + 1;
+         }
+       }
+       return res;
+    }
+    public static void main(String args[])
+    {
+       int coins[] =  {9, 6, 5, 1};
+       int m = coins.length;
+       int V = 11;
+       System.out.println("Minimum coins required is "+ minCoins(coins, m, V) );
+    }
+}
+
+
+
+//Activity Selection (it is the same as N me…
+
+class Solution 
+{
+    //Function to find the maximum number of meetings that can
+    //be performed in a meeting room.
+    public static int maxMeetings(int start[], int end[], int n)
+    {
+        // add your code here
+        int meetings[][] = new int[start.length][3];
+        for(int i=0;i<start.length;i++){
+            meetings[i][0]=i;
+            meetings[i][1]=start[i];
+            meetings[i][2]=end[i];
+        }
+            
+        Arrays.sort(meetings, Comparator.comparingDouble(o->o[2]));
+        int maxMeet=1;
+        int lastIdxEnd=meetings[0][2];
+        for(int i=0;i<end.length;i++){
+            if(meetings[i][1]>lastIdxEnd){
+                maxMeet++;
+                lastIdxEnd=meetings[i][2];
+            }
+        }
+        return maxMeet;
+    }
+}
+
+//
