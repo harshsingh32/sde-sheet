@@ -1,0 +1,164 @@
+//Set Matrix Zeroes
+class Solution{
+public void setZeroes(int[][] matrix){
+
+		int m= matrix.length, n= matrix[0].length;
+        int matrix2[][]= new int[m][n];
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++)
+                matrix2[i][j]=matrix[i][j];
+        }
+        
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(matrix[i][j]==0){
+                    for(int k=0;k<n;k++)
+                        matrix2[i][k]=0;
+
+                    for(int k=0;k<m;k++)
+                        matrix2[k][j]=0;
+                }
+            }
+        }
+    
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++)
+                matrix[i][j]=matrix2[i][j];
+        }
+    }
+}
+
+//Pascal's Triangle
+
+class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> triangle = new ArrayList<>();
+        int[][] dp = new int[numRows][numRows];
+
+        for (int i = 0; i < numRows; i++) {
+            dp[i][0] = 1; 
+            dp[i][i] = 1; 
+
+            for (int j = 1; j < i; j++) {
+                dp[i][j] = dp[i-1][j-1] + dp[i-1][j]; 
+            }
+        }
+
+        for (int i = 0; i < numRows; i++) {
+            List<Integer> row = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                row.add(dp[i][j]); 
+            }
+            triangle.add(row);
+        }
+
+        return triangle;
+    }
+}
+
+
+//Next Permutation
+
+class Solution {
+    public void nextPermutation(int[] nums) {
+        int ind1=-1;
+        int ind2=-1;
+        for(int i=nums.length-2;i>=0;i--){
+            if(nums[i]<nums[i+1]){
+                ind1=i;
+                break;
+            }
+        }
+        if(ind1==-1){
+            reverse(nums,0);
+        }
+        else{
+            for(int i=nums.length-1;i>=0;i--){
+                if(nums[i]>nums[ind1]){
+                    ind2=i;
+                    break;
+                }
+            }
+            swap(nums,ind1,ind2);
+            reverse(nums,ind1+1);
+        }
+    }
+    void swap(int[] nums,int i,int j){
+        int temp=nums[i];
+        nums[i]=nums[j];
+        nums[j]=temp;
+    }
+    void reverse(int[] nums,int start){
+        int i=start;
+        int j=nums.length-1;
+        while(i<j){
+            swap(nums,i,j);
+            i++;
+            j--;
+        }
+    }
+}
+
+//Maximum Subarray- Sliding Window approach
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int sum = 0 , maxi = Integer.MIN_VALUE;;
+        int i = 0 , j = 0;
+        while(j<nums.length){
+           
+            if(sum < 0 && nums[j] >= sum){
+                sum = 0;
+                i = j;
+            }
+             sum += nums[j];
+            maxi = Math.max(maxi , sum);
+            j++;
+        }
+        return maxi;
+    }
+}
+
+//Sort Colors- Brute Force Approach
+
+class Solution {
+    public void sortColors(int[] nums) {
+        int c0=0;
+        int c1=0;
+        int c2=0;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==0) c0++;
+            else if(nums[i]==1) c1++;
+            else if(nums[i]==2) c2++;
+        }
+        for(int i=0;i<c0;i++){
+            nums[i]=0;
+        }
+        for(int i=c0;i<c0+c1;i++){
+            nums[i]=1;
+        }
+        for(int i=c0+c1;i<nums.length;i++){
+            nums[i]=2;
+        }
+
+        
+    }
+}
+
+//Best Time to Buy and Sell Stock
+
+class Solution {
+
+    public int maxProfit(int[] prices) {
+        int maxProfit = 0;
+        int minPrice = prices[0];
+
+        for (int i = 0; i < prices.length; i++) {
+            minPrice = Math.min(prices[i], minPrice);
+            int profit = prices[i] - minPrice;
+            maxProfit = Math.max(maxProfit, profit);
+        }
+        return maxProfit;
+    }
+}
+
