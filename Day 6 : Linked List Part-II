@@ -1,0 +1,216 @@
+// Find intersection point of Y LinkedList
+
+public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    //boundary check
+    if(headA == null || headB == null) return null;
+    
+    ListNode a = headA;
+    ListNode b = headB;
+    
+    //if a & b have different len, then we will stop the loop after second iteration
+    while( a != b){
+    	//for the end of first iteration, we just reset the pointer to the head of another linkedlist
+        a = a == null? headB : a.next;
+        b = b == null? headA : b.next;    
+    }
+    
+    return a;
+}
+
+
+
+//Detect a cycle in Linked List
+
+
+public class Solution {
+    public boolean hasCycle(ListNode head) 
+    {
+        ListNode slow= head;
+        ListNode fast= head;
+
+        while(fast!=null && fast.next!=null)
+        {
+            slow=slow.next;
+            fast=fast.next.next;
+            if(slow==fast)
+            {
+                return true;
+            }
+        }  
+        return false;
+    }
+}
+
+
+
+//Reverse a LinkedList in groups of size k.
+
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+    ListNode curr = head;
+    int count = 0;
+    while (curr != null && count != k) { // find the k+1 node
+        curr = curr.next;
+        count++;
+    }
+    if (count == k) { // if k+1 node is found
+        curr = reverseKGroup(curr, k); // reverse list with k+1 node as head
+        // head - head-pointer to direct part, 
+        // curr - head-pointer to reversed part;
+        while (count-- > 0) { // reverse current k-group: 
+            ListNode tmp = head.next; // tmp - next head in direct part
+            head.next = curr; // preappending "direct" head to the reversed list 
+            curr = head; // move head of reversed part to a new node
+            head = tmp; // move "direct" head to the next node in direct part
+        }
+        head = curr;
+    }
+    return head;
+    }
+}
+
+
+//Check if a LinkedList is palindrome or not…
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public var val: Int
+ *     public var next: ListNode?
+ *     public init() { self.val = 0; self.next = nil; }
+ *     public init(_ val: Int) { self.val = val; self.next = nil; }
+ *     public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
+ * }
+ */
+class Solution {
+    func isPalindrome(_ head: ListNode?) -> Bool {
+        var arr = [Int]()
+
+        var head = head 
+        while head != nil  {
+            arr.append(head!.val)
+            head = head?.next
+        }
+        var i = 0
+        var j = arr.count-1
+        while i<j {
+            if arr[i] != arr[j] {
+                return false
+            }
+            i += 1 
+            j -= 1
+        }
+        return true
+    }
+}
+
+
+//Find the starting point of the Loop of Lin…
+
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+
+        int length = cycleLength(head);
+
+        if(length == 0) {
+            return null;
+        }
+        
+        ListNode first = head;
+        ListNode second = head;
+
+        while (length > 0) {
+            second = second.next;
+            length--;
+        }
+
+        while (first != second) {
+            first = first.next;
+            second = second.next;
+        }
+        //or return second, same thing
+        return first;
+    }
+
+    public int cycleLength(ListNode head) {
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+
+            fast = fast.next.next;
+            slow = slow.next;
+
+            if (slow == fast) {
+                ListNode temp = slow;
+                int length = 0;
+                do {
+                    temp = temp.next;
+                    length++;
+                } while(temp != slow);
+
+                return length;
+            }
+        }
+        return 0;
+    }
+}
+
+//Flattening of a LinkedList
+
+class Solution 
+{
+    Node mergeTwoLists(Node a, Node b) {
+        
+        Node temp = new Node(0);
+        Node res = temp; 
+        
+        while(a != null && b != null) {
+            if(a.data < b.data) {
+                temp.bottom = a; 
+                temp = temp.bottom; 
+                a = a.bottom; 
+            }
+            else {
+                temp.bottom = b;
+                temp = temp.bottom; 
+                b = b.bottom; 
+            }
+        }
+         if(a != null) temp.bottom = a; 
+        else temp.bottom = b;
+        return res.bottom; 
+    
+    }
+    Node flatten(Node root)
+    {
+       
+            if (root == null || root.next == null) 
+                return root; 
+      
+            // recur for list on right 
+            root.next = flatten(root.next); 
+      
+            // now merge 
+            root = mergeTwoLists(root, root.next); 
+      
+            // return the root 
+            // it will be in turn merged with its left 
+            return root; 
+    }
+}
+
+
+        
