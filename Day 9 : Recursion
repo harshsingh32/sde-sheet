@@ -1,0 +1,146 @@
+//Subset Sums
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+//TC=2powN+2powNlog(2powN) 
+ static void findSumSet(int index,int sum,int arr[],int N,ArrayList<Integer> list){
+     if(index==N)
+     {
+        list.add(sum);
+        return;
+     }
+        findSumSet(index+1,sum+arr[index],arr,N,list);
+        findSumSet(index+1,sum,arr,N,list);
+    }
+    public static ArrayList<Integer> subsetSum(int num[]) {
+        ArrayList<Integer> list=new ArrayList<>()
+            findSumSet(0,0,num,num.length,list);
+        Collections.sort(list);
+        return list;
+    }
+}
+
+
+
+//Subset-II
+
+import java.util.*;
+public class Solution {
+    public static void findSubsets(int ind, int[] nums, List<Integer> ds, ArrayList<ArrayList<Integer>> ansList) {
+       ansList.add(new ArrayList<>(ds)); 
+       for(int i = ind;i<nums.length;i++) {
+           if(i!=ind && nums[i] == nums[i-1]) continue; 
+           ds.add(nums[i]); 
+           findSubsets(i+1, nums, ds, ansList); 
+           ds.remove(ds.size() - 1);
+       }
+       
+   }
+   public static ArrayList<ArrayList<Integer>> uniqueSubsets(int n, int arr[]) {
+       // Write your code here..
+      Arrays.sort(arr); 
+       ArrayList<ArrayList<Integer>> ansList = new ArrayList<>(); 
+       findSubsets(0, arr, new ArrayList<>(), ansList); 
+       return ansList; 
+   }
+}
+
+
+
+
+//Combination sum-1
+
+class Solution {
+public List<List<Integer>> combinationSum(int[] candidates, int target)
+{
+        List<List<Integer>> al = new ArrayList<>();
+		//taking an List of List which will traverse via Call by reference through recursion
+        Combo(candidates, target, "", target, al);           // passing list of List in recursion logic
+        return al;                                                             // returning the list after Recursion ends
+    }
+static void Combo(int a[], int N, String ans, int max, List<List<Integer>> al)
+    {
+        if(N==0) //base Condition when our targets equals to 0
+        {
+            ArrayList<Integer> cl = new ArrayList<>();
+            StringTokenizer st = new StringTokenizer(ans.trim()); // Breaking the string ans into integers and adding them into list,( a new List will be created for each case when base condition get hit)
+            int n = st.countTokens();
+            for(int j=0 ; j<=n-1; j++)
+            {
+                cl.add(Integer.parseInt(st.nextToken()));
+            }
+            al.add(cl); //adding our list to--> list of list
+        }
+        else
+        {
+            for(int i=0; i<a.length; i++)
+            {
+                if(N-a[i]>=0&& a[i]<=max) //taking max variable for stoping the duplication of answer 
+                {
+                Combo(a, N-a[i], ans+a[i]+" ", a[i], al); // passing max as last a[i] which we included in our ans
+                }
+            }
+        }
+    }
+}
+
+//Combination sum-2
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> list = new ArrayList<>();
+        Arrays.sort(candidates);
+        combination2( 0,candidates, target, res, list);
+        return res;
+    }
+    public void combination2(int index, int[] arr, int target, List<List<Integer>> res, List<Integer> list){
+        if(target == 0){
+            Collections.sort(list);
+            res.add(new ArrayList<>(list));
+            return;
+        }
+        for(int i = index;i < arr.length;i++){
+            if(i > index && arr[i] == arr[i - 1]) continue;
+            if(target < arr[i]) break;
+
+            list.add(arr[i]);
+            combination2(i + 1, arr, target - arr[i], res, list);
+            list.remove(list.size() - 1);
+        }
+    }
+}
+
+
+
+//Palindrome Partitioning
+
+class Solution {
+    List<List<String>> ans = new ArrayList<>();
+    List<String> curr = new ArrayList<>();
+    boolean isPalindrome(String s, int low, int high) {
+        while (low < high)
+            if (s.charAt(low++) != s.charAt(high--)) return false;
+
+        return true;
+    }
+    void genrate(String s,int start)
+    {
+        if(start >=s.length())
+            ans.add(new ArrayList<>(curr));
+        for(int i=start;i<s.length();i++)
+        {
+            if(isPalindrome(s,start,i))
+            {
+                curr.add(s.substring(start,i+1));
+                genrate(s,i+1);
+                curr.remove(curr.size()-1);
+            }
+        }
+    }
+    public List<List<String>> partition(String s) {
+        genrate(s,0);
+        return ans;
+    }
+}
