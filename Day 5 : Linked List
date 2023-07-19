@@ -16,3 +16,214 @@ class Solution {
     }
 }
 
+
+//Find the middle of LinkedList
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast.next != null && fast.next.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+
+        if (fast.next != null) {
+            slow = slow.next;
+        }
+
+        return slow;
+    }
+}
+
+
+//Merge two sorted Linked List (use method u…
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode mergeTwoLists(ListNode head1, ListNode head2) {
+        ListNode temp=new ListNode(0);
+        ListNode newhead=temp;
+        while(head1!=null && head2!=null){
+            if(head1.val<head2.val){
+                temp.next=head1;
+                head1=head1.next;
+            }
+            else{
+                temp.next=head2;
+                head2=head2.next;
+            }
+            temp=temp.next;
+        }
+
+        if(head1!=null){
+            temp.next=head1;
+        }
+        if(head2!=null){
+            temp.next=head2;
+        }
+
+        return newhead.next;
+        
+    }
+}
+
+//Remove N-th node from back of LinkedList
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head == null)
+            return null;
+        ListNode fast = head;
+        ListNode slow = head;
+        for(int i=0; i<n; i++)
+        {
+            fast = fast.next;
+        }
+        //if remove the first node
+        if(fast == null)
+        {
+            head = head.next;
+            return head;
+        }
+        while(fast.next != null)
+        {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        slow.next = slow.next.next;
+        return head;
+    }
+}
+
+
+//Add two numbers as LinkedList
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode ans = new ListNode(0);
+        ListNode curr = ans; 
+        int m = 0;
+
+        while(l1 != null && l2 != null){
+            m = l1.val + l2.val + m/10;
+            if(m>=10){
+                curr.next = new ListNode(m%10);
+                curr = curr.next;
+                l1 = l1.next;
+                l2 = l2.next;
+            }else{
+                curr.next = new ListNode(m);
+                curr = curr.next;
+                l1 = l1.next;
+                l2 = l2.next;
+                m = 0;
+
+            }
+        }
+
+        while(l1 != null ){
+            m = l1.val + m/10;
+            if(m>=10){
+                curr.next = new ListNode(m%10);
+                curr = curr.next;
+                l1 = l1.next;
+            }else{
+                curr.next = new ListNode(m);
+                curr = curr.next;
+                l1 = l1.next;
+                m = 0;
+
+            }
+        }
+
+        while(l2 != null){
+            m = l2.val + m/10;
+            if(m>=10){
+                curr.next = new ListNode(m%10);
+                curr = curr.next;
+                l2 = l2.next;
+            }else{
+                curr.next = new ListNode(m);
+                curr = curr.next;
+                l2 = l2.next;
+                m = 0;
+
+            }
+        }
+
+
+        if(m>0){
+            curr.next = new ListNode(m/10);
+            curr = curr.next; 
+        }
+
+        return ans.next;
+    }
+}
+
+
+//Delete a given Node when a node is given.(…
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public void deleteNode(ListNode node) {
+ListNode temp =new ListNode();
+        while(node.next !=null)        {
+            node.val = node.next.val;
+             temp = node;
+            node= node.next;
+        }
+
+        temp.next = null;
+    }
+}
+
+
