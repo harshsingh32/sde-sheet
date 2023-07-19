@@ -1,0 +1,153 @@
+//2Sum Problem
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int n=nums.length;
+        Map<Integer,Integer> map=new HashMap<>();
+        int[] result=new int[2];
+        for(int i=0;i<n;i++){
+            if(map.containsKey(target-nums[i])){
+                result[1]=i;
+                result[0]=map.get(target-nums[i]);
+                return result;
+            }
+            map.put(nums[i],i);
+        }
+        return result;
+    }
+}
+
+
+
+//4-Sum Problem
+
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        Set<List<Integer>> set = new HashSet<>();
+        for(int i = 0; i < nums.length - 3; i++) {
+            for(int j = i + 1; j < nums.length - 2; j++) {
+                int k = j + 1;
+                int l = nums.length - 1;
+                while(k < l) {
+                    long sum = (long)nums[i] + (long)nums[j] + (long)nums[k] + (long)nums[l];
+                    if(sum == target){
+                        set.add(List.of(nums[i],nums[j],nums[k],nums[l]));
+                        k++;
+                        l--;
+                    }
+                    else if(sum < target)
+                        k++;
+                    else
+                        l--;
+                }
+            }
+        }
+        return new ArrayList<>(set);
+    }
+}
+
+
+
+//Longest Consecutive Sequence
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        int max = 0;
+        Set<Integer> set = new HashSet<>();
+        for(int val : nums) set.add(val);
+        for(int i : nums){
+            if(set.contains(i-1)) continue;
+            int total = 0;
+            while(set.remove(i++)){
+                total++;
+            }
+            if(total > max) max = total;
+        }
+        return max;
+    }
+}
+
+
+//Largest Subarray with K sum
+
+import java.util.*;
+
+public class Solution {
+static int solve(int[] a){
+	int  max = 0;
+	for(int i = 0; i < a.length; ++i){
+		int sum = 0;
+		for(int j = i; j < a.length; ++j){
+			sum += a[j];
+			if(sum == 0){
+				max = Math.max(max, j-i+1);
+			}
+		}
+	}
+	return max;
+   }
+
+    public static void main(String args[]) 
+    { 
+        int a[] = {9, -3, 3, -1, 6, -5};
+        System.out.println(solve(a));
+    } 
+}
+
+//Count number of subarrays with given xor K
+
+import java.util.*;
+
+public class Solution {
+
+    public static int subarraysWithXorK(int []a, int k) {
+        int n = a.length; //size of the given array.
+        int cnt = 0;
+
+        // Step 1: Generating subarrays:
+        for (int i = 0; i < n; i++) {
+            int xorr = 0;
+            for (int j = i; j < n; j++) {
+
+                //step 2:calculate XOR of all
+                // elements:
+                xorr = xorr ^ a[j];
+
+                // step 3:check XOR and count:
+                if (xorr == k) cnt++;
+            }
+        }
+        return cnt;
+    }
+public static void main(String args[]) 
+    { 
+        int a[] = {9, -3, 3, -1, 6, -5};
+        System.out.println(solve(a));
+    } 
+}
+
+//Length of Longest Substring without any Repeating Character
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) 
+    {
+         int maxLength = 0;
+        String currentSubstring = "";
+
+        for (int i = 0; i < s.length(); i++)
+        {
+            char c = s.charAt(i);
+                if (currentSubstring.contains(String.valueOf(c)))
+                {
+                    maxLength = Math.max(maxLength , currentSubstring.length());
+                    int index = currentSubstring.indexOf(c);
+                    currentSubstring = currentSubstring.substring(index+1);
+                }
+                currentSubstring += c;
+        }
+            maxLength = Math.max(maxLength , currentSubstring.length());
+        return maxLength;
+    }
+}
+
