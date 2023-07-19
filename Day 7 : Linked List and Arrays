@@ -1,0 +1,169 @@
+//Rotate a LinkedList
+
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if( k == 0 || head ==null || head.next == null) return head;
+
+        int len=1;
+        ListNode cur=head;
+        //count and travel to the last node;
+        while(cur.next != null){
+            len++;
+            cur=cur.next;
+        }
+        //when k=len we get the same linked list
+        k = len - (k%len);
+        //make a loop by attaching last to first
+        cur.next = head;
+
+        while(k > 0){
+            cur=cur.next;
+            k--;
+        } 
+        //get the head and break the link
+        head = cur.next;
+        cur.next = null;
+
+        return head;
+
+    }
+}
+
+
+
+
+
+//Clone a Linked List with random and next p…
+
+
+public RandomListNode copyRandomList(RandomListNode head) {
+  if (head == null) return null;
+  
+  Map<RandomListNode, RandomListNode> map = new HashMap<RandomListNode, RandomListNode>();
+  
+  // loop 1. copy all the nodes
+  RandomListNode node = head;
+  while (node != null) {
+    map.put(node, new RandomListNode(node.label));
+    node = node.next;
+  }
+  
+  // loop 2. assign next and random pointers
+  node = head;
+  while (node != null) {
+    map.get(node).next = map.get(node.next);
+    map.get(node).random = map.get(node.random);
+    node = node.next;
+  }
+  
+  return map.get(head);
+}
+
+
+//3 sum
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] n) {
+        Arrays.sort(n);
+        List<List<Integer>> list = new ArrayList<>();
+        int sum = 0;
+        for(int i = 0 ; i<n.length; i++){
+            if(i ==0 || n[i] != n[i-1]){
+            int j = i+1;
+            int k = n.length -1;
+            while(j < k){
+                sum = n[j] + n[k] +n[i];
+                if(sum > 0){
+                    k--;
+                }
+                else if(sum < 0){
+                    j++;
+                }
+                else{
+                    ArrayList<Integer> inside = new ArrayList<>();
+                    inside.add(n[i]);
+                    inside.add(n[j]);
+                    inside.add(n[k]);
+                    list.add(inside);
+
+                    while (j < k && n[j] == n[j+1]){
+                        j++;
+                    }
+                    while(j < k && n[k] == n[k-1]){
+                     k--;
+                    }
+
+                    j++;
+                    k--;
+                }
+            }
+            }
+        }
+        return list;
+
+    }
+}
+
+
+
+//Trapping Rainwater
+class Solution {
+    public int trap(int[] height) {
+        int left = 0; 
+        int right = height.length - 1;
+        int ans = 0; 
+        int lMax = 0, rMax = 0;
+        while(left <= right){
+            lMax = Math.max(height[left], lMax);
+            rMax = Math.max(height[right], rMax);			  
+            
+            if (lMax < rMax){
+                ans += lMax - height[left++];
+            }
+            else {
+                ans += rMax - height[right--];
+            }
+        }
+        return ans;
+    }
+}
+
+
+
+//Remove Duplicate from Sorted array
+
+class Solution {
+ public int removeDuplicates(int[] arr) {
+ int i=0;
+ for(int j=1;j<arr.length;j++){
+     if(arr[i] != arr[j]){
+         arr[i+1] = arr[j];
+         i++;
+     }
+ }
+ return i+1;
+}
+}
+
+
+
+//Max consecutive ones
+
+class Solution {
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int max = 0;
+        int count = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] == 1){
+                count++;
+                if(i != nums.length - 1) continue;
+            }
+            if(count > max) max = count;
+            count = 0;
+        }
+        return max;
+    }
+}
+
+
+
