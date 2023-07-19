@@ -1,0 +1,160 @@
+//Rotate Image
+
+class Solution {
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        int[][] rotated = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                rotated[j][n - i - 1] = matrix[i][j];
+            }
+        }
+        // Copy rotated matrix back to the original matrix
+        for (int i = 0; i < n; i++) {
+            System.arraycopy(rotated[i], 0, matrix[i], 0, n);
+        }
+    }
+}
+
+
+
+//Merge Overlapping Sub-intervals
+
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        if (intervals.length <= 1) return intervals;
+
+        Arrays.sort(intervals, (arr1, arr2) - > Integer.compare(arr1[0], arr2[0]));
+
+        List < int[] > output_arr = new ArrayList < > ();
+        int[] current_interval = intervals[0];
+        output_arr.add(current_interval);
+
+        for (int[] interval: intervals) {
+            int current_begin = current_interval[0];
+            int current_end = current_interval[1];
+            int next_begin = interval[0];
+            int next_end = interval[1];
+
+            if (current_end >= next_begin) {
+                current_interval[1] = Math.max(current_end, next_end);
+            } else {
+                current_interval = interval;
+                output_arr.add(current_interval);
+            }
+        }
+        return output_arr.toArray(new int[output_arr.size()][]);
+
+    }
+}
+
+
+
+//Merge two Sorted Arrays Without Extra Space
+
+class Solution {
+public void merge(int[] nums1, int m, int[] nums2, int n) {
+
+    for(int i=0; i<nums2.length; i++){
+        for(int j=nums1.length-n; j<nums1.length; j++){
+            if(nums1[j]==0){
+                nums1[j] = nums2[i];
+                i++;
+            }
+        }
+    }
+    Arrays.sort(nums1);
+            
+    }
+}
+
+
+//Find the duplicate in an array of N+1 integers
+
+class Solution {
+    public int findDuplicate(int[] nums) {
+        // Floyd's Graph cycle detection
+        int slow=0, fast=0;
+        do{
+            slow=nums[slow];
+            fast=nums[nums[fast]];
+        }while(slow!=fast);
+        slow=0;
+        do{
+            slow=nums[slow];
+            fast=nums[fast];
+        }while(slow!=fast);
+        return slow;
+    }
+}
+
+
+//Find the repeating and missing numbers
+
+import java.util.*;
+
+public class Solution{
+
+    public static int[] findMissingRepeatingNumbers(int[] a) {
+        long n = a.length; // size of the array
+        // Find Sn and S2n:
+        long SN = (n * (n + 1)) / 2;
+        long S2N = (n * (n + 1) * (2 * n + 1)) / 6;
+
+        // Calculate S and S2:
+        long S = 0, S2 = 0;
+        for (int i = 0; i < n; i++) {
+            S += a[i];
+            S2 += (long)a[i] * (long)a[i];
+        }
+
+        //S-Sn = X-Y:
+        long val1 = S - SN;
+
+        // S2-S2n = X^2-Y^2:
+        long val2 = S2 - S2N;
+
+        //Find X+Y = (X^2-Y^2)/(X-Y):
+        val2 = val2 / val1;
+
+        //Find X and Y: X = ((X+Y)+(X-Y))/2 and Y = X-(X-Y),
+        // Here, X-Y = val1 and X+Y = val2:
+        long x = (val1 + val2) / 2;
+        long y = x - val1;
+
+        int[] ans = {(int)x, (int)y};
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int[] a = {3, 1, 2, 5, 4, 6, 7, 5};
+        int[] ans = findMissingRepeatingNumbers(a);
+        System.out.println("The repeating and missing numbers are: {"
+                           + ans[0] + ", " + ans[1] + "}");
+    }
+}
+
+//Count inversions in an array
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+
+    public static long getInversions(long arr[], int n) {
+
+        int ans=0;
+        for(int i=0;i<n-1;i++){
+            for(int j=i+1;j<n;j++){
+
+                if(arr[i]>arr[j]){
+
+                    ans++;
+                }
+            }
+        }
+        return ans;
+    }
+
+
+
+
